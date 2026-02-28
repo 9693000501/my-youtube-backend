@@ -22,7 +22,7 @@ app.get('/api/download', (req, res) => {
     const tempFilePath = path.join(__dirname, tempFileName);
 
     // Command (Internet wale server par yt-dlp aur ffmpeg pehle se install honge Docker ki wajah se)
-    extractor-args = [
+    const ytDlpArgs = [
         '-f', `bestvideo[height<=${quality}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`,
         '--merge-output-format', 'mp4',
         '--no-playlist',
@@ -52,5 +52,4 @@ app.get('/api/download', (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Cloud Server is perfectly running on port ${PORT}!`);
-
 });
