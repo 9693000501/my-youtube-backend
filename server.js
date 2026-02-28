@@ -9,6 +9,11 @@ const app = express();
 app.use(cors({ origin: '*' })); 
 app.use(express.json());
 
+// Main link par check karne ke liye Welcome Message
+app.get('/', (req, res) => {
+    res.send('🚀 Ultra Fetch 4K Backend is LIVE and Running Perfectly!');
+});
+
 app.get('/api/download', (req, res) => {
     const videoUrl = req.query.url;
     const quality = req.query.quality || '9999';
@@ -21,11 +26,13 @@ app.get('/api/download', (req, res) => {
     const tempFileName = `video_${Date.now()}.mp4`;
     const tempFilePath = path.join(__dirname, tempFileName);
 
-    // Command (Internet wale server par yt-dlp aur ffmpeg pehle se install honge Docker ki wajah se)
+    // Command (Internet wale server par yt-dlp aur ffmpeg pehle se install honge)
+    // Isme humne YouTube Bot Protection bypass karne ka sahi code daal diya hai
     const ytDlpArgs = [
         '-f', `bestvideo[height<=${quality}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`,
         '--merge-output-format', 'mp4',
         '--no-playlist',
+        '--extractor-args', 'youtube:player_client=android,web',
         '-o', tempFilePath,
         videoUrl
     ];
