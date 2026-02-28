@@ -26,13 +26,15 @@ app.get('/api/download', (req, res) => {
     const tempFileName = `video_${Date.now()}.mp4`;
     const tempFilePath = path.join(__dirname, tempFileName);
 
-    // Command (Internet wale server par yt-dlp aur ffmpeg pehle se install honge)
-    // Isme humne YouTube Bot Protection bypass karne ka sahi code daal diya hai
+    // NAYA CODE: Super Bypass Command (YouTube & Pinterest ke IP Block ko todne ke liye)
     const ytDlpArgs = [
         '-f', `bestvideo[height<=${quality}][ext=mp4]+bestaudio[ext=m4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best`,
         '--merge-output-format', 'mp4',
         '--no-playlist',
-        '--extractor-args', 'youtube:player_client=android,web',
+        '--geo-bypass', // Location restrictions hatane ke liye
+        '--force-ipv4', // Cloud ke IPv6 block ko bypass karne ke liye
+        '--extractor-args', 'youtube:player_client=android,web;player_skip=webpage,configs', // Aggressive YouTube Bypass
+        '--add-header', 'user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', // Asli browser dikhane ke liye
         '-o', tempFilePath,
         videoUrl
     ];
