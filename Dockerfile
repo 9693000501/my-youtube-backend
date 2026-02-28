@@ -1,28 +1,28 @@
-# Base image with Node.js
+# Base image with Node.js 18
 FROM node:18
 
-# Install Python and FFmpeg (Cloud Server ke liye)
+# Install Python and FFmpeg (Cloud Server ke liye required)
 RUN apt-get update && \
     apt-get install -y python3 python3-pip python3-venv ffmpeg && \
     rm -rf /var/lib/apt/lists/*
 
-# Install yt-dlp inside a virtual environment
+# Setup virtual environment for Python tools
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# NAYA CODE: Hamesha latest yt-dlp install karega taaki YouTube block na kar sake
+# IMPORTANT: Hamesha latest yt-dlp version install karega taaki YouTube rules bypass ho sakein
 RUN pip3 install --upgrade yt-dlp
 
-# Set working directory
+# Working directory set karna
 WORKDIR /app
 
-# Copy package files and install Express/Cors
+# Dependency files copy aur install karna
 COPY package*.json ./
 RUN npm install
 
-# Copy all other files
+# Baaki sara code copy karna
 COPY . .
 
-# Start the server
+# Server start command
 EXPOSE 3001
 CMD ["node", "server.js"]
