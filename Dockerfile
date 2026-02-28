@@ -9,7 +9,9 @@ RUN apt-get update && \
 # Install yt-dlp inside a virtual environment
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN pip3 install yt-dlp
+
+# NAYA CODE: Hamesha latest yt-dlp install karega taaki YouTube block na kar sake
+RUN pip3 install --upgrade yt-dlp
 
 # Set working directory
 WORKDIR /app
